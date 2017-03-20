@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbfbd6b1d2e112956c06e9b84483a4b8",
+    "content-hash": "f0001a7e2bab47086edd0662d855e463",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -78,6 +78,56 @@
             "description": "A proper REST client for PHP.",
             "homepage": "https://github.com/educoder/pest",
             "time": "2013-11-17T12:58:01+00:00"
+        },
+        {
+            "name": "league/plates",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/plates.git",
+                "reference": "46692403d9fe41d6fa6c40a1d04091fa6c7cf367"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/plates/zipball/46692403d9fe41d6fa6c40a1d04091fa6c7cf367",
+                "reference": "46692403d9fe41d6fa6c40a1d04091fa6c7cf367",
+                "shasum": ""
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "~1.4.0",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Plates\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Reinink",
+                    "email": "jonathan@reinink.ca",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
+            "homepage": "http://platesphp.com",
+            "keywords": [
+                "league",
+                "package",
+                "templating"
+            ],
+            "time": "2014-09-27T23:50:21+00:00"
         },
         {
             "name": "nikic/fast-route",
