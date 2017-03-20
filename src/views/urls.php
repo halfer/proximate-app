@@ -1,7 +1,5 @@
 <?php $this->layout('template') ?>
 
-Count: <?php echo $count ?>
-
 <table>
     <thead>
         <tr>
@@ -30,3 +28,16 @@ Count: <?php echo $count ?>
         </tr>
     <?php endforeach ?>
 </table>
+
+<p>
+    <?php // Pagination device if necessary ?>
+    <?php if ($count > count($list)): ?>
+        <?php for($p = 1; $p <= ceil($count / $pageSize); $p++): ?>
+            <a href="/list/<?php echo $p ?>"
+               ><?php echo $p ?></a>
+        <?php endfor ?>
+    <?php endif ?>
+
+    <?php // Include the full URL count ?>
+    (Count: <?php echo $count ?>)
+</p>
