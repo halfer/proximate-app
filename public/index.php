@@ -10,11 +10,16 @@ $templates = new League\Plates\Engine($root . '/src/views');
 $app->get('/', function ($request, $response) use ($templates) {
 
     $curl = new PestJSON("http://proximate-api:8080/");
-    $data = $curl->get('/count');
+    // Check that result.ok = true for each of these
+    $countData = $curl->get('/count');
+    $listData = $curl->get('/play/list');
 
     echo $templates->render(
         'urls',
-        ['count' => $data['result']['count']]
+        [
+            'count' => $countData['result']['count'],
+            'list' => $listData['result']['list'],
+        ]
     );
 });
 $app->run();
