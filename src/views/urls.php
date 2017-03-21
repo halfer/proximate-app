@@ -7,6 +7,7 @@
             <th>Site</th>
             <th>Path</th>
             <th>Method</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -24,6 +25,14 @@
             </td>
             <td>
                 <?php echo htmlspecialchars($url['request']['method'], null, 'UTF-8') ?>
+            </td>
+            <td>
+                <form
+                    method="post"
+                    action="/delete/<?php echo htmlspecialchars($url['id'], null, 'UTF-8') ?>"
+                >
+                    <input type="submit" value="Delete" />
+                </form>
             </td>
         </tr>
     <?php endforeach ?>
