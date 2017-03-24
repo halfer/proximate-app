@@ -57,4 +57,16 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
         withRedirect('/');
 });
 
+$app->get('/status', function(Request $request, Response $response) use ($templates, $curl) {
+
+    $statusData = $curl->get('/status');
+    $html = $templates->render(
+        'status',
+        ['sites' => $statusData['result']['recorder']['sites']]
+    );
+    $response->getBody()->write($html);
+
+    return $response;
+});
+
 $app->run();
