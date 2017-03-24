@@ -45,8 +45,11 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
     // Get the ID of the item to delete
     $id = isset($args['id']) ? $args['id'] : null;
 
-    // @todo Let's see if we delete by URL or ID?
-    #$curl->delete('/cache/' . $id);
+    // @todo Check if this succeeded or failed
+    if ($id)
+    {
+        $curl->delete('/cache/' . $id);
+    }
 
     // The Slim way doesn't seem to work, so doing it manually
     return $response->
