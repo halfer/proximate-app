@@ -23,7 +23,6 @@ $listController = function (Request $request, Response $response, $args) use ($t
     $countData = 0;
     $listData = [];
 
-    // @todo Check that result.ok = true for each of these
     $error = null;
     try
     {
@@ -77,7 +76,7 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
     // Get the ID of the item to delete
     $id = isset($args['id']) ? $args['id'] : null;
 
-    // @todo Check if this succeeded or failed
+    $error = null;
     if ($id)
     {
         try
@@ -100,6 +99,7 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
 $app->get('/status', function(Request $request, Response $response) use ($templates, $curl) {
 
     $statusData = [];
+    $error = null;
     try
     {
         $data = $curl->get('/status');
