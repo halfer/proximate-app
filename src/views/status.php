@@ -1,3 +1,5 @@
+<?php $this->layout('template') ?>
+
 <p>
     Items waiting to be moved to the playback service:
 </p>

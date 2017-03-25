@@ -12,6 +12,10 @@
         </style>
     </head>
     <body>
+        <div>
+            <a href="/">Home</a>
+            <a href="/status">Status</a>
+        </div>
         <?php echo $this->section('content') ?>
     </body>
 </html>
