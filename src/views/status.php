@@ -1,5 +1,12 @@
 <?php $this->layout('template') ?>
 
+<?php /* @todo Can this be moved into the template? */ ?>
+<?php if ($error): ?>
+    <p style="color: red;">
+        <?php echo htmlspecialchars($error, null, 'UTF-8') ?>
+    </p>
+<?php endif ?>
+
 <p>
     Items waiting to be moved to the playback service:
 </p>

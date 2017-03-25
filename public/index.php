@@ -57,10 +57,10 @@ $listController = function (Request $request, Response $response, $args) use ($t
     $html = $templates->render(
         'urls',
         [
-            'error' => $error,
             'count' => $countData,
             'list' => $listData,
             'pageSize' => 10,
+            'error' => $error,
         ]
     );
     $response->getBody()->write($html);
@@ -80,7 +80,15 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
     // @todo Check if this succeeded or failed
     if ($id)
     {
-        $curl->delete('/cache/' . $id);
+        try
+        {
+            $curl->delete('/cache/' . $id);
+        }
+        catch (\Pest_ServerError $e)
+        {
+            $error = "The delete operation failed";
+            // @todo Add the error into a flash variable
+        }
     }
 
     // The Slim way doesn't seem to work, so doing it manually
@@ -91,10 +99,23 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
 
 $app->get('/status', function(Request $request, Response $response) use ($templates, $curl) {
 
-    $statusData = $curl->get('/status');
+    $statusData = [];
+    try
+    {
+        $data = $curl->get('/status');
+        if (isset($data['result']['recorder']['sites']))
+        {
+            $statusData = $data['result']['recorder']['sites'];
+        }
+    }
+    catch (\Pest_ServerError $e)
+    {
+        $error = "The status endpoint failed";
+    }
+
     $html = $templates->render(
         'status',
-        ['sites' => $statusData['result']['recorder']['sites']]
+        ['sites' => $statusData, 'error' => $error, ]
     );
     $response->getBody()->write($html);
 
