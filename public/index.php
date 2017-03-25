@@ -19,15 +19,47 @@ $listController = function (Request $request, Response $response, $args) use ($t
         (int) $args['page'] :
         1;
 
+    // Defaults in case of error condition
+    $countData = 0;
+    $listData = [];
+
     // @todo Check that result.ok = true for each of these
-    $countData = $curl->get('/count');
-    $listData = $curl->get('/play/list/' . $page);
+    $error = null;
+    try
+    {
+        $data = $curl->get('/count');
+        if (isset($data['result']['count']))
+        {
+            $countData = $data['result']['count'];
+        }
+    }
+    catch (\Pest_ServerError $e)
+    {
+        $error = "The count endpoint failed";
+    }
+
+    if (!$error)
+    {
+        try
+        {
+            $data = $curl->get('/play/list/' . $page);
+            if (isset($data['result']['list']))
+            {
+                $listData = $data['result']['list'];
+            }
+        }
+        catch (\Pest_ServerError $e)
+        {
+            $error = "The count endpoint failed";
+        }
+    }
 
     $html = $templates->render(
         'urls',
         [
-            'count' => $countData['result']['count'],
-            'list' => $listData['result']['list'],
+            'error' => $error,
+            'count' => $countData,
+            'list' => $listData,
             'pageSize' => 10,
         ]
     );

@@ -1,5 +1,11 @@
 <?php $this->layout('template') ?>
 
+<?php if ($error): ?>
+    <p style="color: red;">
+        <?php echo htmlspecialchars($error, null, 'UTF-8') ?>
+    </p>
+<?php endif ?>
+
 <table>
     <thead>
         <tr>
