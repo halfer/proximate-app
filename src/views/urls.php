@@ -43,6 +43,13 @@
             </td>
         </tr>
     <?php endforeach ?>
+    <?php if (!$list): ?>
+        <tr>
+            <td colspan="5">
+                (No items)
+            </td>
+        </tr>
+    <?php endif ?>
 </table>
 
 <p>
