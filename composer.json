@@ -1,8 +1,11 @@
 {
+    "name": "proximate/app",
+    "description": "A web app to connect to a Proximate API instance",
     "require": {
         "slim/slim": "^3.0",
         "educoder/pest": "1.0.0",
-        "league/plates": "3"
+        "league/plates": "3",
+        "slim/flash": "^0.2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.8.*",
