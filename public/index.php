@@ -41,7 +41,7 @@ $listController = function (Request $request, Response $response, $args) use ($t
     {
         try
         {
-            $data = $curl->get('/play/list/' . $page);
+            $data = $curl->get('/list/' . $page);
             if (isset($data['result']['list']))
             {
                 $listData = $data['result']['list'];
