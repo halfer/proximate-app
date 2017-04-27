@@ -10,9 +10,8 @@
 <table>
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Site</th>
-            <th>Path</th>
+            <th>Key</th>
+            <th>Url</th>
             <th>Method</th>
             <th></th>
         </tr>
@@ -22,21 +21,18 @@
     <?php foreach ($list as $url): ?>
         <tr>
             <td>
-                <?php echo htmlspecialchars($url['id'], null, 'UTF-8') ?>
+                <?php echo htmlspecialchars($url['key'], null, 'UTF-8') ?>
             </td>
             <td>
-                <?php echo htmlspecialchars($url['request']['headers']['Host']['equalTo'], null, 'UTF-8') ?>
+                <?php echo htmlspecialchars($url['url'], null, 'UTF-8') ?>
             </td>
             <td>
-                <?php echo htmlspecialchars($url['request']['url'], null, 'UTF-8') ?>
-            </td>
-            <td>
-                <?php echo htmlspecialchars($url['request']['method'], null, 'UTF-8') ?>
+                <?php echo htmlspecialchars($url['method'], null, 'UTF-8') ?>
             </td>
             <td>
                 <form
                     method="post"
-                    action="/delete/<?php echo htmlspecialchars($url['id'], null, 'UTF-8') ?>"
+                    action="/delete/<?php echo htmlspecialchars($url['key'], null, 'UTF-8') ?>"
                 >
                     <input type="submit" value="Delete" />
                 </form>
