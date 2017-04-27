@@ -96,30 +96,4 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
         withRedirect('/');
 });
 
-$app->get('/status', function(Request $request, Response $response) use ($templates, $curl) {
-
-    $statusData = [];
-    $error = null;
-    try
-    {
-        $data = $curl->get('/status');
-        if (isset($data['result']['recorder']['sites']))
-        {
-            $statusData = $data['result']['recorder']['sites'];
-        }
-    }
-    catch (\Pest_ServerError $e)
-    {
-        $error = "The status endpoint failed";
-    }
-
-    $html = $templates->render(
-        'status',
-        ['sites' => $statusData, 'error' => $error, ]
-    );
-    $response->getBody()->write($html);
-
-    return $response;
-});
-
 $app->run();
