@@ -13,6 +13,7 @@
             <th>Key</th>
             <th>Url</th>
             <th>Method</th>
+            <th>Timestamp</th>
             <th></th>
         </tr>
     </thead>
@@ -30,6 +31,12 @@
                 <?php echo htmlspecialchars($url['method'], null, 'UTF-8') ?>
             </td>
             <td>
+                <?php if (isset($url['timestamp_requested'])): ?>
+                    <?php echo $url['timestamp_requested'] ?>
+                <?php endif ?>
+            </td>
+            <td>
+                <a href="">View</a>
                 <form
                     method="post"
                     action="/delete/<?php echo htmlspecialchars($url['key'], null, 'UTF-8') ?>"
