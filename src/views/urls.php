@@ -15,6 +15,7 @@
             <th>Method</th>
             <th>Timestamp</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
 
@@ -36,7 +37,9 @@
                 <?php endif ?>
             </td>
             <td>
-                <a href="">View</a>
+                <a href="/view/<?php echo htmlspecialchars($url['key'], null, 'UTF-8') ?>">View</a>
+            </td>
+            <td>
                 <form
                     method="post"
                     action="/delete/<?php echo htmlspecialchars($url['key'], null, 'UTF-8') ?>"
@@ -48,7 +51,7 @@
     <?php endforeach ?>
     <?php if (!$list): ?>
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 (No items)
             </td>
         </tr>
