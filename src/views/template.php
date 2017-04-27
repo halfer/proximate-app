@@ -14,6 +14,8 @@
     <body>
         <div>
             <a href="/">Home</a>
+            |
+            <a href="/crawl">Crawl</a>
         </div>
         <?php echo $this->section('content') ?>
     </body>

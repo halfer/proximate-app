@@ -127,4 +127,25 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
         withRedirect('/');
 });
 
+$app->get('/crawl', function (Request $request, Response $response) use ($templates) {
+    $html = $templates->render('crawl');
+    $response->getBody()->write($html);
+
+    return $response;
+});
+
+$app->post('/crawl/go', function (Request $request, Response $response, $args) use ($curl) {
+
+    $crawlRequest = [
+        'url' => $request->getParam('url'),
+        'path_regex' => $request->getParam('path_regex')
+    ];
+    $result = $curl->post('/cache', $crawlRequest);
+    print_r($result);
+
+    return $response->
+        withStatus(303)->
+        withRedirect('/');
+});
+
 $app->run();
