@@ -71,6 +71,37 @@ $listController = function (Request $request, Response $response, $args) use ($t
 $app->get('/', $listController);
 $app->get('/list/{page}', $listController);
 
+$app->get('/view/{id}', function(Request $request, Response $response, $args) use ($templates, $curl) {
+
+    // Get the ID of the item to show
+    $id = isset($args['id']) ? $args['id'] : null;
+
+    $error = null;
+    $cacheItem = null;
+    try
+    {
+        $data = $curl->get('/cache/' . $id);
+        if (isset($data['result']['item']))
+        {
+            $cacheItem = $data['result']['item'];
+        }
+    }
+    catch (\Pest_ServerError $e)
+    {
+        $error = "The get cache item endpoint failed";
+    }
+
+    $html = $templates->render(
+        'view',
+        [
+            'cacheItem' => $cacheItem,
+        ]
+    );
+    $response->getBody()->write($html);
+
+    return $response;
+});
+
 $app->post('/delete/{id}', function(Request $request, Response $response, $args) use ($curl) {
 
     // Get the ID of the item to delete
