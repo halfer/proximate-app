@@ -17,11 +17,14 @@ $templates = new League\Plates\Engine($root . '/src/views');
 // Prep an instance of the curl system (old style)
 $curl = new PestJSON("http://proximate-api:8080/");
 
-// New style curl object
+// Set up new style curl object
+$proxyAddress = "proximate-proxy:8081";
 $curlSelf = new Curl\Curl();
+$curlSelf->setOpt(CURLOPT_CONNECTTIMEOUT, 1);
+$curlSelf->setOpt(CURLOPT_TIMEOUT, 3);
+$curlSelf->setOpt(CURLOPT_PROXY, $proxyAddress);
 
-$listController = function (Request $request, Response $response, $args)
-    use ($templates, $curl, $curlSelf) {
+$listController = function (Request $request, Response $response, $args) use ($templates, $curl) {
 
     // If we have a page ref then use it
     $page = isset($args['page']) ?
@@ -157,26 +160,22 @@ $app->post('/crawl/go', function (Request $request, Response $response) use ($cu
         withRedirect('/');
 });
 
-$app->get('/proxy-test', function (Request $request, Response $response) use ($templates, $curlSelf) {
-
-    // Configure curl device
-    $curlSelf->setOpt(CURLOPT_CONNECTTIMEOUT, 1);
-    $curlSelf->setOpt(CURLOPT_TIMEOUT, 3);
-    // @todo Need to run this through the proxy
+$app->get('/proxy-test', function (Request $request, Response $response)
+    use ($templates, $curlSelf, $proxyAddress) {
 
     // Fetch the target page
     // @todo Wrap this in try-catch to catch connection refused errors
     $targetSite = 'http://proximate-app:8085/test-target';
     $html = $curlSelf->get($targetSite)->response;
-    $response->getBody()->write($html);
-    $ok = true;
+    $ok = $curlSelf->http_status_code === 200;
 
-    // @todo Wire in the template
-    $html2 = $templates->render(
+    // Wire in the template
+    $renderHtml = $templates->render(
         'proxy-test',
-        ['proxyAddress' => '', 'targetSite' => $targetSite,
+        ['proxyAddress' => $proxyAddress, 'targetSite' => $targetSite,
          'ok' => $ok, 'byteCount' => $ok ? strlen($html) : 0, ]
     );
+    $response->getBody()->write($renderHtml);
 
     return $response;
 });
