@@ -134,7 +134,7 @@ $app->get('/crawl', function (Request $request, Response $response) use ($templa
     return $response;
 });
 
-$app->post('/crawl/go', function (Request $request, Response $response, $args) use ($curl) {
+$app->post('/crawl/go', function (Request $request, Response $response) use ($curl) {
 
     $crawlRequest = [
         'url' => $request->getParam('url'),
@@ -146,6 +146,38 @@ $app->post('/crawl/go', function (Request $request, Response $response, $args) u
     return $response->
         withStatus(303)->
         withRedirect('/');
+});
+
+$app->get('/proxy-test', function (Request $request, Response $response) use ($templates) {
+
+    $targetSite = 'http://proximate-app:8084/test-target';
+    $elements = parse_url($targetSite);
+    $siteRoot = $elements['scheme'] . '://' . $elements['host'] . ':' . $elements['port'];
+
+    // @todo Inject this dependency into the anonymous function
+    $curlSelf = new Pest($siteRoot);
+
+    // Fetch the target page
+    // @todo Wrap this in Pest_Curl_Exec to catch connection refused errors
+    // @todo Need to run this through the proxy
+    $html = $curlSelf->get($elements['path']);
+    $response->getBody()->write($html);
+
+    // @todo Wire in the template
+    $html2 = $templates->render(
+        'proxy-test',
+        ['proxyAddress' => '', 'targetSite' => '', 'ok' => true, ]
+    );
+
+    return $response;
+});
+
+$app->get('/test-target', function (Request $request, Response $response) {
+
+    $html = rand(1, 1000);
+    $response->getBody()->write($html);
+
+    return $response;
 });
 
 $app->run();

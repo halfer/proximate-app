@@ -16,6 +16,8 @@
             <a href="/">Home</a>
             |
             <a href="/crawl">Crawl</a>
+            |
+            <a href="/proxy-test">Proxy test</a>
         </div>
         <?php echo $this->section('content') ?>
     </body>
