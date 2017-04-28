@@ -1,4 +1,9 @@
 <?php
+/**
+ * Front controller for simple app to control a Proximate instance
+ *
+ * @todo Swap Pest library to the Curl library, which is more flexible
+ */
 
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -150,24 +155,23 @@ $app->post('/crawl/go', function (Request $request, Response $response) use ($cu
 
 $app->get('/proxy-test', function (Request $request, Response $response) use ($templates) {
 
-    $targetSite = 'http://proximate-app:8084/test-target';
-    $elements = parse_url($targetSite);
-    $siteRoot = $elements['scheme'] . '://' . $elements['host'] . ':' . $elements['port'];
-
     // @todo Inject this dependency into the anonymous function
-    $curlSelf = new Pest($siteRoot);
+    $curlSelf = new Curl\Curl();
 
     // Fetch the target page
-    // @todo Wrap this in Pest_Curl_Exec to catch connection refused errors
+    // @todo Wrap this in try-catch to catch connection refused errors
     // @todo Need to run this through the proxy
-    $html = $curlSelf->get($elements['path']);
-    $response->getBody()->write($html);
+    $targetSite = 'http://proximate-app:8085/test-target';
+    $curlSelf->setOpt(CURLOPT_CONNECTTIMEOUT, 1);
+    $curlSelf->setOpt(CURLOPT_TIMEOUT, 3);
+    $html = $curlSelf->get($targetSite);
+    $response->getBody()->write("Hello");
 
     // @todo Wire in the template
-    $html2 = $templates->render(
-        'proxy-test',
-        ['proxyAddress' => '', 'targetSite' => '', 'ok' => true, ]
-    );
+    #$html2 = $templates->render(
+    #    'proxy-test',
+    #    ['proxyAddress' => '', 'targetSite' => '', 'ok' => true, ]
+    #);
 
     return $response;
 });
