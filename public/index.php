@@ -14,10 +14,14 @@ require_once $root . '/vendor/autoload.php';
 $app = new \Slim\App();
 $templates = new League\Plates\Engine($root . '/src/views');
 
-// Prep an instance of the curl system
+// Prep an instance of the curl system (old style)
 $curl = new PestJSON("http://proximate-api:8080/");
 
-$listController = function (Request $request, Response $response, $args) use ($templates, $curl) {
+// New style curl object
+$curlSelf = new Curl\Curl();
+
+$listController = function (Request $request, Response $response, $args)
+    use ($templates, $curl, $curlSelf) {
 
     // If we have a page ref then use it
     $page = isset($args['page']) ?
@@ -153,25 +157,26 @@ $app->post('/crawl/go', function (Request $request, Response $response) use ($cu
         withRedirect('/');
 });
 
-$app->get('/proxy-test', function (Request $request, Response $response) use ($templates) {
+$app->get('/proxy-test', function (Request $request, Response $response) use ($templates, $curlSelf) {
 
-    // @todo Inject this dependency into the anonymous function
-    $curlSelf = new Curl\Curl();
+    // Configure curl device
+    $curlSelf->setOpt(CURLOPT_CONNECTTIMEOUT, 1);
+    $curlSelf->setOpt(CURLOPT_TIMEOUT, 3);
+    // @todo Need to run this through the proxy
 
     // Fetch the target page
     // @todo Wrap this in try-catch to catch connection refused errors
-    // @todo Need to run this through the proxy
     $targetSite = 'http://proximate-app:8085/test-target';
-    $curlSelf->setOpt(CURLOPT_CONNECTTIMEOUT, 1);
-    $curlSelf->setOpt(CURLOPT_TIMEOUT, 3);
-    $html = $curlSelf->get($targetSite);
-    $response->getBody()->write("Hello");
+    $html = $curlSelf->get($targetSite)->response;
+    $response->getBody()->write($html);
+    $ok = true;
 
     // @todo Wire in the template
-    #$html2 = $templates->render(
-    #    'proxy-test',
-    #    ['proxyAddress' => '', 'targetSite' => '', 'ok' => true, ]
-    #);
+    $html2 = $templates->render(
+        'proxy-test',
+        ['proxyAddress' => '', 'targetSite' => $targetSite,
+         'ok' => $ok, 'byteCount' => $ok ? strlen($html) : 0, ]
+    );
 
     return $response;
 });
