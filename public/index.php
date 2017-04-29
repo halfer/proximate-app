@@ -169,11 +169,22 @@ $app->get('/proxy-test', function (Request $request, Response $response)
     $html = $curlSelf->get($targetSite)->response;
     $ok = $curlSelf->http_status_code === 200;
 
+    $error = '';
+    if (!$ok)
+    {
+        // Example of a curl error: "Port number out of range"
+        // Example of an HTTP error: "Server error"
+        $error = $curlSelf->curl_error_message ?
+            $curlSelf->curl_error_message :
+            $curlSelf->http_error_message;
+    }
+
     // Wire in the template
     $renderHtml = $templates->render(
         'proxy-test',
         ['proxyAddress' => $proxyAddress, 'targetSite' => $targetSite,
-         'ok' => $ok, 'byteCount' => $ok ? strlen($html) : 0, ]
+         'ok' => $ok, 'byteCount' => $ok ? strlen($html) : 0,
+         'error' => $error, ]
     );
     $response->getBody()->write($renderHtml);
 
