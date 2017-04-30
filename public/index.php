@@ -124,7 +124,8 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
     {
         try
         {
-            $curl->delete('/cache/' . $id);
+            // @todo Ensure that this contains ok = true
+            $curlResponse = $curl->delete('/cache/' . $id);
         }
         catch (\Pest_ServerError $e)
         {
