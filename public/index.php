@@ -161,12 +161,12 @@ $app->post('/crawl/go', function (Request $request, Response $response) use ($cu
         withRedirect('/');
 });
 
-$app->get('/proxy-test', function (Request $request, Response $response)
+$app->get('/proxy/test', function (Request $request, Response $response)
     use ($templates, $curlSelf, $proxyAddress) {
 
     // Fetch the target page
     // @todo Wrap this in try-catch to catch connection refused errors
-    $targetSite = 'http://proximate-app:8085/test-target';
+    $targetSite = 'http://proximate-app:8085/proxy/test-target';
     $html = $curlSelf->get($targetSite)->response;
     $ok = $curlSelf->http_status_code === 200;
 
@@ -192,9 +192,17 @@ $app->get('/proxy-test', function (Request $request, Response $response)
     return $response;
 });
 
-$app->get('/test-target', function (Request $request, Response $response) {
+$app->get('/proxy/test-target', function (Request $request, Response $response) {
 
     $html = rand(1, 1000);
+    $response->getBody()->write($html);
+
+    return $response;
+});
+
+$app->get('/proxy/logs', function (Request $request, Response $response) use ($curl, $templates) {
+
+    $html = $templates->render('proxy/logs');
     $response->getBody()->write($html);
 
     return $response;

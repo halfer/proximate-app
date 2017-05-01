@@ -12,12 +12,14 @@
         </style>
     </head>
     <body>
-        <div>
+        <div style="margin-bottom: 4px;">
             <a href="/">Home</a>
             |
             <a href="/crawl">Crawl</a>
             |
-            <a href="/proxy-test">Proxy test</a>
+            <a href="/proxy/test">Proxy test</a>
+            |
+            <a href="/proxy/logs">Proxy logs</a>
         </div>
         <?php echo $this->section('content') ?>
     </body>
