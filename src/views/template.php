@@ -19,7 +19,7 @@
             |
             <a href="/proxy/test">Proxy test</a>
             |
-            <a href="/proxy/logs">Proxy logs</a>
+            <a href="/proxy/log">Proxy log</a>
         </div>
         <?php echo $this->section('content') ?>
     </body>
