@@ -1,9 +1,15 @@
 <?php $this->layout('template') ?>
 
 <p>
-    Logs go here:
+    Tail of proxy logs:
 </p>
 
-<p>
-    <?php print_r($log) ?>
-</p>
+<table>
+    <?php foreach ($logLines as $line): ?>
+        <tr>
+            <td>
+                <?php echo htmlentities($line, null, 'UTF-8') ?>
+            </td>
+        </tr>
+    <?php endforeach ?>
+</table>

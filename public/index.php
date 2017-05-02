@@ -202,8 +202,8 @@ $app->get('/proxy/test-target', function (Request $request, Response $response) 
 
 $app->get('/proxy/log', function (Request $request, Response $response) use ($curl, $templates) {
 
-    $log = $curl->get('/log');
-    $html = $templates->render('proxy/log', ['log' => $log, ]);
+    $curlResponse = $curl->get('/log');
+    $html = $templates->render('proxy/log', ['logLines' => $curlResponse['result']['log'], ]);
     $response->getBody()->write($html);
 
     return $response;
