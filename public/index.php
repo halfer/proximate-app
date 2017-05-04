@@ -27,9 +27,7 @@ $curlSelf->setOpt(CURLOPT_PROXY, $proxyAddress);
 $listController = function (Request $request, Response $response, $args) use ($templates, $curl) {
 
     // If we have a page ref then use it
-    $page = isset($args['page']) ?
-        (int) $args['page'] :
-        1;
+    $page = isset($args['page']) ? (int) $args['page'] : 1;
 
     // Defaults in case of error condition
     $countData = 0;
@@ -70,6 +68,7 @@ $listController = function (Request $request, Response $response, $args) use ($t
         [
             'count' => $countData,
             'list' => $listData,
+            'page' => $page,
             'pageSize' => 10,
             'error' => $error,
         ]
@@ -114,10 +113,13 @@ $app->get('/view/{id}', function(Request $request, Response $response, $args) us
     return $response;
 });
 
-$app->post('/delete/{id}', function(Request $request, Response $response, $args) use ($curl) {
+$app->post('/delete/{id}[/{page}]', function(Request $request, Response $response, $args) use ($curl) {
 
     // Get the ID of the item to delete
     $id = isset($args['id']) ? $args['id'] : null;
+
+    // If we have a page ref then use it
+    $page = isset($args['page']) ? (int) $args['page'] : 1;
 
     $error = null;
     if ($id)
@@ -137,7 +139,7 @@ $app->post('/delete/{id}', function(Request $request, Response $response, $args)
     // The Slim way doesn't seem to work, so doing it manually
     return $response->
         withStatus(303)->
-        withRedirect('/');
+        withRedirect('/list/' . $page);
 });
 
 $app->get('/crawl', function (Request $request, Response $response) use ($templates) {
@@ -158,7 +160,7 @@ $app->post('/crawl/go', function (Request $request, Response $response) use ($cu
 
     return $response->
         withStatus(303)->
-        withRedirect('/');
+        withRedirect('/crawl');
 });
 
 $app->get('/proxy/test', function (Request $request, Response $response)

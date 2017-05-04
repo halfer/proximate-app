@@ -42,7 +42,7 @@
             <td>
                 <form
                     method="post"
-                    action="/delete/<?php echo htmlspecialchars($url['key'], null, 'UTF-8') ?>"
+                    action="/delete/<?php echo htmlspecialchars($url['key'], null, 'UTF-8') ?>/<?php echo $page ?>"
                 >
                     <input type="submit" value="Delete" />
                 </form>
