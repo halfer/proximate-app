@@ -7,6 +7,7 @@
 <table>
     <thead>
         <tr>
+            <th>Key</th>
             <th>URL</th>
             <th>Path regex</th>
         </tr>
@@ -14,13 +15,14 @@
     <tbody>
         <?php foreach ($doingRows as $queueRow): ?>
             <tr>
+                <td><?php echo htmlentities($queueRow['key'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
             </tr>
         <?php endforeach ?>
         <?php if (!$doingRows): ?>
             <tr>
-                <td colspan="2">
+                <td colspan="3">
                     No queue items in progress.
                 </td>
             </tr>
@@ -35,6 +37,7 @@
 <table>
     <thead>
         <tr>
+            <th>Key</th>
             <th>URL</th>
             <th>Path regex</th>
             <th>Error</th>
@@ -43,6 +46,7 @@
     <tbody>
         <?php foreach ($errorRows as $queueRow): ?>
             <tr>
+                <td><?php echo htmlentities($queueRow['key'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['error'], null, 'UTF-8') ?></td>
@@ -50,7 +54,7 @@
         <?php endforeach ?>
         <?php if (!$errorRows): ?>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     No queue items in an error state.
                 </td>
             </tr>
