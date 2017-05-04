@@ -209,4 +209,17 @@ $app->get('/proxy/log', function (Request $request, Response $response) use ($cu
     return $response;
 });
 
+$app->get('/crawl/queue', function (Request $request, Response $response) use ($curl, $templates) {
+
+    // @todo Access the API twice to get failed and in progress items
+
+    $html = $templates->render(
+        'queue',
+        ['doing' => [1], 'error' => [2], ]
+    );
+    $response->getBody()->write($html);
+
+    return $response;
+});
+
 $app->run();

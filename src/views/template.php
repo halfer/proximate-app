@@ -17,6 +17,8 @@
             |
             <a href="/crawl">Crawl</a>
             |
+            <a href="/crawl/queue">Crawl queue</a>
+            |
             <a href="/proxy/test">Proxy test</a>
             |
             <a href="/proxy/log">Proxy log</a>
