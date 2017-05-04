@@ -4,10 +4,24 @@
     In progress:
 </p>
 
-<p><?php print_r($doing) ?></p>
+<table>
+    <?php foreach ($doingRows as $queueRow): ?>
+        <tr>
+            <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
+            <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
+        </tr>
+    <?php endforeach ?>
+</table>
 
 <p>
     Failed:
 </p>
 
-<p><?php print_r($error) ?></p>
+<table>
+    <?php foreach ($errorRows as $queueRow): ?>
+        <tr>
+            <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
+            <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
+        </tr>
+    <?php endforeach ?>
+</table>

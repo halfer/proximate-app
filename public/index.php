@@ -211,11 +211,16 @@ $app->get('/proxy/log', function (Request $request, Response $response) use ($cu
 
 $app->get('/crawl/queue', function (Request $request, Response $response) use ($curl, $templates) {
 
-    // @todo Access the API twice to get failed and in progress items
+    // Access the API twice to get failed and in progress items
+    $doing = $curl->get('/queue/doing');
+    $error = $curl->get('/queue/error');
 
     $html = $templates->render(
         'queue',
-        ['doing' => [1], 'error' => [2], ]
+        [
+            'doingRows' => $doing['result']['queue'],
+            'errorRows' => $error['result']['queue'],
+        ]
     );
     $response->getBody()->write($html);
 
