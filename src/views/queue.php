@@ -5,12 +5,27 @@
 </p>
 
 <table>
-    <?php foreach ($doingRows as $queueRow): ?>
+    <thead>
         <tr>
-            <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
-            <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
+            <th>URL</th>
+            <th>Path regex</th>
         </tr>
-    <?php endforeach ?>
+    </thead>
+    <tbody>
+        <?php foreach ($doingRows as $queueRow): ?>
+            <tr>
+                <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
+                <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
+            </tr>
+        <?php endforeach ?>
+        <?php if (!$doingRows): ?>
+            <tr>
+                <td colspan="2">
+                    No queue items in progress.
+                </td>
+            </tr>
+        <?php endif ?>
+    </tbody>
 </table>
 
 <p>
@@ -18,10 +33,27 @@
 </p>
 
 <table>
-    <?php foreach ($errorRows as $queueRow): ?>
+    <thead>
         <tr>
-            <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
-            <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
+            <th>URL</th>
+            <th>Path regex</th>
+            <th>Error</th>
         </tr>
-    <?php endforeach ?>
+    </thead>
+    <tbody>
+        <?php foreach ($errorRows as $queueRow): ?>
+            <tr>
+                <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
+                <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
+                <td><?php echo htmlentities($queueRow['error'], null, 'UTF-8') ?></td>
+            </tr>
+        <?php endforeach ?>
+        <?php if (!$errorRows): ?>
+            <tr>
+                <td colspan="3">
+                    No queue items in an error state.
+                </td>
+            </tr>
+        <?php endif ?>
+    </tbody>
 </table>
