@@ -10,6 +10,7 @@
             <th>Key</th>
             <th>URL</th>
             <th>Path regex</th>
+            <th>Queued time</th>
         </tr>
     </thead>
     <tbody>
@@ -18,11 +19,12 @@
                 <td><?php echo htmlentities($queueRow['key'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
+                <td><?php echo htmlentities($queueRow['timestamp_queued'], null, 'UTF-8') ?></td>
             </tr>
         <?php endforeach ?>
         <?php if (!$doingRows): ?>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     No queue items in progress.
                 </td>
             </tr>
@@ -41,6 +43,7 @@
             <th>URL</th>
             <th>Path regex</th>
             <th>Error</th>
+            <th>Queued time</th>
         </tr>
     </thead>
     <tbody>
@@ -50,11 +53,12 @@
                 <td><?php echo htmlentities($queueRow['url'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['path_regex'], null, 'UTF-8') ?></td>
                 <td><?php echo htmlentities($queueRow['error'], null, 'UTF-8') ?></td>
+                <td><?php echo htmlentities($queueRow['timestamp_queued'], null, 'UTF-8') ?></td>
             </tr>
         <?php endforeach ?>
         <?php if (!$errorRows): ?>
             <tr>
-                <td colspan="4">
+                <td colspan="5">
                     No queue items in an error state.
                 </td>
             </tr>
