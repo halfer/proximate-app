@@ -17,8 +17,10 @@ services:
     - "8080:8080"
     links:
     - proximate-proxy
+    - proximate-queue
     volumes:
     - proximate-volume:/remote/cache
+    - proximate-q-volume:/remote/queue
     # Use time and TZ from the host, could alternatively use env vars and set it
     # manually in the container, see https://wiki.alpinelinux.org/wiki/Setting_the_timezone
     - /etc/localtime:/etc/localtime:ro
@@ -28,12 +30,24 @@ services:
     environment:
     - PHP_TIMEZONE=Europe/London
 
+  proximate-queue:
+    container_name: "queue_instance"
+    image: proximate-queue
+    restart: always
+    links:
+    - proximate-proxy
+    volumes:
+    - proximate-volume:/remote/cache
+    - proximate-q-volume:/remote/queue
+    environment:
+    - PROXY_ADDRESS=proximate-proxy:8081
+
   # @todo Remove external ports once everything is happy
   proximate-proxy:
+    container_name: "proxy_instance"
     image: proximate-proxy
     ports:
     - "8081:8081"
-    container_name: "proxy_instance"
     volumes:
     - proximate-volume:/remote/cache
     environment:
@@ -41,3 +55,4 @@ services:
 
 volumes:
   proximate-volume:
+  proximate-q-volume:
